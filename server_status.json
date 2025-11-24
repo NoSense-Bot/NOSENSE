@@ -1,6 +1,6 @@
 {
     "url_api_base": "https://rocks-guild-left-routers.trycloudflare.com",
     "porta": 5000,
-    "status_servidor": "Online",
+    "status_servidor": "Offline",
     "version_api": "1.5.0-social"
 }
