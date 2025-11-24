@@ -1,5 +1,5 @@
 /* ===========================================
-   CONFIG & API DISCOVERY — ANTI 429 FIX
+   CONFIG & API DISCOVERY — SEM CACHE
 =========================================== */
 
 let API = null;
@@ -8,7 +8,14 @@ async function carregarConfigAPI() {
   try {
     const r = await fetch(
       "https://api.github.com/repos/NoSense-Bot/NOSENSE/contents/server_status.json",
-      { cache: "no-store" }
+      {
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
+        }
+      }
     );
 
     if (!r.ok) {
@@ -45,7 +52,8 @@ async function carregarConfigAPI() {
   }
 }
 
-carregarConfigAPI();
+// sempre que o site abrir, buscar o JSON mais recente
+window.addEventListener("DOMContentLoaded", carregarConfigAPI);
 
 
 /* ===========================================
@@ -151,7 +159,6 @@ setInterval(() => API && atualizarStatus(), 45000);
 
 /* ============================================================
    ⬆️ FIM DA PARTE 1
-   ME PEÇA: "PARTE 2" QUE EU ENVIO A CONTINUAÇÃO IMEDIATA
 ============================================================ */
 /* ===========================================
    PIRÂMIDE 3D (Three.js)
@@ -507,6 +514,7 @@ function initPyramid3D() {
 
   animate();
 }
+
 /* ===========================================
    TAGS CLICÁVEIS + SINCRONIZAÇÃO
 =========================================== */
