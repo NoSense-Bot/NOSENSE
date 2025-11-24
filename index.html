@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vozes da pirâmide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js para a pirâmide 3D -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+</head>
+<body data-theme="dark">
+  <header class="top-bar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-title">Vozes da pirâmide</span>
+    </div>
+
+    <div class="server-status">
+      <span id="status-dot" class="status-dot offline"></span>
+      <span id="status-text">Carregando...</span>
+    </div>
+
+    <button id="theme-toggle" class="icon-btn" title="Alternar tema">☾</button>
+  </header>
+
+  <main class="layout">
+    <!-- Caixa de postagem -->
+    <section class="card post-card">
+      <h2>Publique sua indignação, anonimamente.</h2>
+      <textarea
+        id="post-text"
+        placeholder="Conte o que acontece aí dentro (sem citar nomes reais ou dados que possam te identificar)..."
+      ></textarea>
+
+      <div class="post-footer">
+        <div class="class-indicator">
+          <span>Classe selecionada:</span>
+          <strong id="current-class-label">nenhuma</strong>
+        </div>
+
+        <div class="post-actions-inline">
+          <button id="btn-escolher-classe" class="secondary-btn">
+            Escolher posição na pirâmide
+          </button>
+          <button id="btn-postar" class="primary-btn">
+            Postar anonimamente
+          </button>
+        </div>
+      </div>
+
+      <div id="post-error" class="error-msg"></div>
+    </section>
+
+    <!-- Feed -->
+    <section class="card feed-card">
+      <div class="feed-header">
+        <h2>Feed de indignações</h2>
+        <button id="btn-atualizar" class="ghost-btn">Atualizar</button>
+      </div>
+      <div id="feed" class="feed">Carregando...</div>
+    </section>
+  </main>
+
+  <!-- Botão de ajuda (flutuante) -->
+  <button class="floating-help" title="Como funciona?">?</button>
+
+  <!-- MODAL: seleção de classe + pirâmide 3D -->
+  <div id="class-modal-backdrop" class="modal-backdrop">
+    <div class="class-modal">
+      <button id="modal-close" class="modal-close">✕</button>
+
+      <h2>De onde vem sua voz?</h2>
+      <p class="modal-subtitle">
+        Selecione seu lugar na pirâmide para contextualizar o seu relato.
+      </p>
+
+      <div class="pyramid-wrapper">
+        <canvas id="pyramid-canvas"></canvas>
+      </div>
+
+      <div class="class-buttons">
+        <button id="btn-base" class="class-tag">Base — chão de fábrica</button>
+        <button id="btn-meio" class="class-tag">Meio — coordenação</button>
+        <button id="btn-topo" class="class-tag">Topo — diretoria</button>
+      </div>
+
+      <p class="modal-info">
+        Sua posição só altera o avatar e o contexto. Sua identidade continua totalmente anônima.
+      </p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
