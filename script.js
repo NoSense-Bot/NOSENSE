@@ -1,40 +1,22 @@
 /* ===========================================
-   CONFIG & API DISCOVERY — SEM CACHE
+   CONFIG & API DISCOVERY — RAW JSON FIX
 =========================================== */
 
 let API = null;
 
 async function carregarConfigAPI() {
   try {
+    // Carrega o JSON direto do RAW do GitHub (permite CORS)
     const r = await fetch(
-      "https://api.github.com/repos/NoSense-Bot/NOSENSE/contents/server_status.json",
-      {
-        cache: "no-store",
-        headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          "Pragma": "no-cache",
-          "Expires": "0"
-        }
-      }
+      "https://raw.githubusercontent.com/NoSense-Bot/NOSENSE/main/server_status.json",
+      { cache: "no-store" }
     );
 
     if (!r.ok) {
       throw new Error("Erro HTTP ao carregar config: " + r.status);
     }
 
-    const data = await r.json();
-
-    // GitHub API retorna o conteúdo BASE64
-    const conteudoBase64 = data.content;
-    const conteudo = atob(conteudoBase64);
-
-    let js;
-    try {
-      js = JSON.parse(conteudo);
-    } catch (err) {
-      console.error("JSON inválido no arquivo GitHub:", conteudo);
-      throw new Error("JSON inválido no GitHub");
-    }
+    const js = await r.json();
 
     if (!js.url_api_base) {
       throw new Error("Campo url_api_base não encontrado no JSON.");
@@ -52,7 +34,7 @@ async function carregarConfigAPI() {
   }
 }
 
-// sempre que o site abrir, buscar o JSON mais recente
+// Sempre buscar o JSON atualizado ao abrir o site
 window.addEventListener("DOMContentLoaded", carregarConfigAPI);
 
 
@@ -104,6 +86,7 @@ function getFingerprint() {
   return fp;
 }
 
+
 /* ===========================================
    TEMA
 =========================================== */
@@ -127,6 +110,7 @@ if (themeToggle) {
     themeToggle.textContent = atual === "dark" ? "☾" : "☀";
   });
 }
+
 
 /* ===========================================
    STATUS DO SERVIDOR
@@ -157,9 +141,9 @@ async function atualizarStatus() {
 // Atualiza raramente (evitar spam)
 setInterval(() => API && atualizarStatus(), 45000);
 
-/* ============================================================
-   ⬆️ FIM DA PARTE 1
-============================================================ */
+/* ===========================================
+   FIM DA PARTE 1
+=========================================== */
 /* ===========================================
    PIRÂMIDE 3D (Three.js)
 =========================================== */
@@ -515,6 +499,7 @@ function initPyramid3D() {
   animate();
 }
 
+
 /* ===========================================
    TAGS CLICÁVEIS + SINCRONIZAÇÃO
 =========================================== */
@@ -581,6 +566,9 @@ btnMeio?.addEventListener("click", () => selecionarClasse("meio"));
 btnTopo?.addEventListener("click", () => selecionarClasse("topo"));
 
 /* ===========================================
+   FIM DA PARTE 2
+=========================================== */
+/* ===========================================
    POSTAR
 =========================================== */
 
@@ -632,6 +620,7 @@ btnPostar?.addEventListener("click", (e) => {
 
   enviarPost(texto);
 });
+
 
 /* ===========================================
    FEED
@@ -784,6 +773,7 @@ function renderFeed(posts) {
   });
 }
 
+
 /* ===========================================
    RESPOSTAS
 =========================================== */
@@ -856,11 +846,24 @@ async function carregarRespostas(id, postEl) {
 }
 
 /* ===========================================
+   FIM DA PARTE 3
+=========================================== */
+/* ===========================================
    HELP
 =========================================== */
 
 document.querySelector(".floating-help")?.addEventListener("click", () => {
   alert(
-    "Este espaço é anônimo.\nAs postagens são associadas apenas à posição na pirâmide (base, meio ou topo), nunca à identidade do usuário."
+    "Este espaço é completamente anônimo.\n\n" +
+    "As postagens são associadas APENAS à sua posição na pirâmide:\n" +
+    "— BASE (chão de fábrica)\n" +
+    "— MEIO (coordenação)\n" +
+    "— TOPO (gestão)\n\n" +
+    "Nenhum dado pessoal ou identificador é salvo.\n" +
+    "Seu navegador gera apenas um fingerprint anônimo para evitar fraudes de votos."
   );
 });
+
+/* ===========================================
+   FIM DO SCRIPT JS
+=========================================== */
