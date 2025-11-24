@@ -1,6 +1,6 @@
 {
-    "url_api_base": "https://urge-bright-networks-vote.trycloudflare.com",
+    "url_api_base": "https://api.trycloudflare.com",
     "porta": 5000,
-    "status_servidor": "Offline",
+    "status_servidor": "Online",
     "version_api": "1.5.0-social"
 }
