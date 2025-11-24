@@ -7,7 +7,7 @@ let API = null;
 async function carregarConfigAPI() {
   try {
     const r = await fetch(
-      "https://api.github.com/repos/GuhCansado/NOSENSE/contents/server_status.json",
+      "https://api.github.com/repos/NoSense-Bot/NOSENSE/contents/server_status.json",
       { cache: "no-store" }
     );
 
